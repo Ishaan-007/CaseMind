@@ -1,32 +1,29 @@
 def evidence_prompt(
     fir_context: dict,
     evidence_type: str,
-    evidence_summary: str,
     timestamp: str | None = None,
     source: str | None = None
 ) -> str:
     return f"""
-You are an AI police investigation assistant.
+You are an expert AI police investigation assistant.
+
+You are analyzing RAW {evidence_type.upper()} EVIDENCE directly (video/audio/image/document).
 
 FIR CONTEXT:
 {fir_context}
 
-EVIDENCE TYPE:
-{evidence_type}
-
-EVIDENCE SUMMARY:
-{evidence_summary}
-
 METADATA:
+- Evidence Type: {evidence_type}
 - Timestamp: {timestamp}
 - Source: {source}
 
 TASK:
-1. Extract key findings from the evidence.
-2. Identify any victims, suspects, witnesses, locations, or objects.
-3. Infer possible timeline events.
-4. Assess confidence level (low/medium/high).
-5. Highlight anything that supports or contradicts the FIR.
+1. Extract all key findings from the evidence.
+2. Identify and describe any victims, suspects, witnesses, locations, or objects visible/audible.
+3. Infer precise timeline events and link them to FIR context.
+4. Detect any contradictions or new insights that may change investigation direction.
+5. Assess confidence level for each inference (low/medium/high).
+6. Highlight evidence that supports, contradicts, or expands the FIR.
 
 OUTPUT FORMAT (STRICT JSON ONLY):
 {{
@@ -42,5 +39,5 @@ OUTPUT FORMAT (STRICT JSON ONLY):
   "confidence_level": ""
 }}
 
-Do NOT include explanations outside JSON.
+Do NOT include explanations outside JSON. Be concise, factual, and structured.
 """
